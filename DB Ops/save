@@ -1,0 +1,424 @@
+//package com.onebill.productbilling.dao;
+//
+//import java.util.List;
+//
+//import javax.persistence.EntityManager;
+//import javax.persistence.PersistenceContext;
+//import javax.persistence.TypedQuery;
+//import javax.transaction.Transactional;
+//
+//import org.springframework.beans.BeanUtils;
+//import org.springframework.stereotype.Repository;
+//
+//import com.onebill.productbilling.Entities.Plan;
+//import com.onebill.productbilling.Entities.PlanCharge;
+//import com.onebill.productbilling.Entities.PlanDetail;
+//import com.onebill.productbilling.Entities.PlanOverdue;
+//
+//@Repository
+//public class PlanDaoImpl implements PlanDao {
+//
+//	@PersistenceContext
+//	EntityManager manager;
+//
+//	@Override
+//	@Transactional
+//	public Plan addPlan(Plan plan) {
+//		manager.persist(plan);
+//		return plan;
+//	}
+//
+//	@Override
+//	public List<Plan> getPlan(Plan plan) {
+//		TypedQuery<Plan> query = manager.createQuery("from Plan P where P.product=:value", Plan.class);
+//		query.setParameter("value", plan.getProduct());
+//		return query.getResultList();
+//	}
+//
+//	@Override
+//	public List<Plan> getAllPlans() {
+//		return manager.createQuery("FROM Plan", Plan.class).getResultList();
+//	}
+//
+//	@Override
+//	@Transactional
+//	public Plan updatePlan(Plan plan) {
+//		Plan plan1 = manager.find(Plan.class, plan.getPlanId());
+//		BeanUtils.copyProperties(plan, plan1);
+//		return plan1;
+//	}
+//
+//	@Override
+//	@Transactional
+//	public Plan removePlan(Plan plan) {
+//		Plan plan1 = manager.find(Plan.class, plan.getPlanId());
+//		if (plan1 != null) {
+//			manager.remove(plan1);
+//			return plan1;
+//		} else {
+//			return null;
+//		}
+//	}
+//
+//	@Override
+//	@Transactional
+//	public PlanDetail addPlanDetail(PlanDetail detail) {
+//		manager.persist(detail);
+//		return detail;
+//	}
+//
+//	@Override
+//	public List<PlanDetail> getPlanDetail(Plan plan) {
+//		TypedQuery<PlanDetail> query = manager.createQuery("from PlanDetail P where P.plan=:value", PlanDetail.class);
+//		query.setParameter("value", plan);
+//		return query.getResultList();
+//	}
+//
+//	@Override
+//	@Transactional
+//	public PlanDetail updatePlanDetail(PlanDetail plan) {
+//		TypedQuery<PlanDetail> query = manager
+//				.createQuery("from PlanDetail P where P.plan=:value and P.serviceType=:type", PlanDetail.class);
+//		query.setParameter("value", plan.getPlan());
+//		query.setParameter("type", plan.getServiceType());
+//		PlanDetail detail = query.getSingleResult();
+//		BeanUtils.copyProperties(plan, detail);
+//		return detail;
+//	}
+//
+//	@Override
+//	@Transactional
+//	public PlanDetail removePlanDetail(PlanDetail plan) {
+//		TypedQuery<PlanDetail> query = manager
+//				.createQuery("from PlanDetail P where P.plan=:value and P.serviceType=:type", PlanDetail.class);
+//		query.setParameter("value", plan.getPlan());
+//		query.setParameter("type", plan.getServiceType());
+//		PlanDetail detail = query.getSingleResult();
+//		manager.remove(detail);
+//		return detail;
+//	}
+//
+//	@Override
+//	@Transactional
+//	public PlanCharge addPlanCharge(PlanCharge plan) {
+//		manager.persist(plan);
+//		return plan;
+//	}
+//
+//	@Override
+//	public List<PlanCharge> getPlanCharge(Plan plan) {
+//		TypedQuery<PlanCharge> query = manager.createQuery("from PlanCharge P where P.plan=:value", PlanCharge.class);
+//		query.setParameter("value", plan);
+//		return query.getResultList();
+//	}
+//
+//	@Override
+//	@Transactional
+//	public PlanCharge updatePlanCharge(PlanCharge plan) {
+//		TypedQuery<PlanCharge> query = manager
+//				.createQuery("from PlanCharge P where P.plan=:value and P.chargeType=:type", PlanCharge.class);
+//		query.setParameter("value", plan.getPlan());
+//		query.setParameter("type", plan.getChargeType());
+//		PlanCharge charge = query.getSingleResult();
+//		BeanUtils.copyProperties(plan, charge);
+//		return charge;
+//	}
+//
+//	@Override
+//	@Transactional
+//	public PlanCharge removePlanCharge(PlanCharge plan) {
+//		TypedQuery<PlanCharge> query = manager
+//				.createQuery("from PlanCharge P where P.plan=:value and P.chargeType=:type", PlanCharge.class);
+//		query.setParameter("value", plan.getPlan());
+//		query.setParameter("type", plan.getChargeType());
+//		PlanCharge charge = query.getSingleResult();
+//		manager.remove(charge);
+//		return charge;
+//	}
+//
+//	@Override
+//	@Transactional
+//	public PlanOverdue addOverdueDetails(PlanOverdue plan) {
+//		manager.persist(plan);
+//		return plan;
+//	}
+//
+//	@Override
+//	public List<PlanOverdue> getOverdueDetails(Plan plan) {
+//		TypedQuery<PlanOverdue> query = manager.createQuery("from PlanOverdue P where P.plan=:value",
+//				PlanOverdue.class);
+//		query.setParameter("value", plan);
+//		return query.getResultList();
+//	}
+//
+//	@Override
+//	@Transactional
+//	public PlanOverdue updateOverdueDetails(PlanOverdue plan) {
+//		TypedQuery<PlanOverdue> query = manager
+//				.createQuery("from PlanOverdue P where P.plan=:value and P.overageType=:type", PlanOverdue.class);
+//		query.setParameter("value", plan.getPlan());
+//		query.setParameter("type", plan.getOverageType());
+//		PlanOverdue due = query.getSingleResult();
+//		BeanUtils.copyProperties(plan, due);
+//		return due;
+//	}
+//
+//	@Override
+//	@Transactional
+//	public PlanOverdue removeOverdueDetails(PlanOverdue plan) {
+//		TypedQuery<PlanOverdue> query = manager
+//				.createQuery("from PlanOverdue P where P.plan=:value and P.overageType=:type", PlanOverdue.class);
+//		query.setParameter("value", plan.getPlan());
+//		query.setParameter("type", plan.getOverageType());
+//		PlanOverdue due = query.getSingleResult();
+//		manager.remove(due);
+//		return due;
+//	}
+//
+//}
+
+package com.onebill.productbilling.dao;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Repository;
+
+import com.onebill.productbilling.Entities.Plan;
+import com.onebill.productbilling.Entities.PlanCharge;
+import com.onebill.productbilling.Entities.PlanDetail;
+import com.onebill.productbilling.Entities.PlanOverdue;
+import com.onebill.productbilling.Entities.Product;
+import com.onebill.productbilling.dto.PlanChargeDto;
+import com.onebill.productbilling.dto.PlanDetailDto;
+import com.onebill.productbilling.dto.PlanDto;
+import com.onebill.productbilling.dto.PlanOverdueDto;
+import com.onebill.productbilling.dto.ProductDto;
+
+@Repository
+public class PlanDaoImpl implements PlanDao {
+
+	@PersistenceContext
+	EntityManager manager;
+
+	@Override
+	@Transactional
+	public PlanDto addPlan(PlanDto plan) {
+		Plan p = new Plan();
+		BeanUtils.copyProperties(plan, p);
+		manager.persist(p);
+		PlanDto dto = new PlanDto();
+		BeanUtils.copyProperties(p, dto);
+		return dto;
+	}
+
+	@Override
+	public List<PlanDto> getPlan(ProductDto plan) {
+		Product pro = new Product();
+		BeanUtils.copyProperties(plan, pro);
+		TypedQuery<Plan> query = manager.createQuery("from Plan P where P.product=:value", Plan.class);
+		query.setParameter("value", pro);
+		List<Plan> list = query.getResultList();
+		ModelMapper mapper = new ModelMapper();
+		Type listType = new TypeToken<List<PlanDto>>() {
+		}.getType();
+		List<PlanDto> dto = mapper.map(list, listType);
+		return dto;
+	}
+
+	@Override
+	public List<PlanDto> getAllPlans() {
+		List<Plan> list = manager.createQuery("FROM Plan", Plan.class).getResultList();
+		ModelMapper mapper = new ModelMapper();
+		Type listType = new TypeToken<List<PlanDto>>() {
+		}.getType();
+		List<PlanDto> dto = mapper.map(list, listType);
+		return dto;
+	}
+
+	@Override
+	@Transactional
+	public PlanDto updatePlan(PlanDto plan) {
+		Plan plan1 = manager.find(Plan.class, plan.getPlanId());
+		BeanUtils.copyProperties(plan, plan1);
+		PlanDto dto = new PlanDto();
+		BeanUtils.copyProperties(plan1, dto);
+		return dto;
+	}
+
+	@Override
+	@Transactional
+	public PlanDto removePlan(PlanDto plan) {
+		Plan plan1 = manager.find(Plan.class, plan.getPlanId());
+		if (plan1 != null) {
+			manager.remove(plan1);
+			return plan;
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	@Transactional
+	public PlanDetailDto addPlanDetail(PlanDetailDto detail) {
+		PlanDetail det = new PlanDetail();
+		BeanUtils.copyProperties(detail, det);
+		manager.persist(det);
+		PlanDetailDto dto = new PlanDetailDto();
+		BeanUtils.copyProperties(det, dto);
+		return dto;
+	}
+
+	@Override
+	public List<PlanDetailDto> getPlanDetail(PlanDto plan) {
+		Plan p = new Plan();
+		BeanUtils.copyProperties(plan, p);
+		TypedQuery<PlanDetail> query = manager.createQuery("from PlanDetail P where P.plan=:value", PlanDetail.class);
+		query.setParameter("value", p);
+		List<PlanDetail> list = query.getResultList();
+		ModelMapper mapper = new ModelMapper();
+		Type listType = new TypeToken<List<PlanDetailDto>>() {
+		}.getType();
+		List<PlanDetailDto> dto = mapper.map(list, listType);
+		return dto;
+	}
+
+	@Override
+	@Transactional
+	public PlanDetailDto updatePlanDetail(PlanDetailDto plan) {
+		TypedQuery<PlanDetail> query = manager
+				.createQuery("from PlanDetail P where P.plan=:value and P.serviceType=:type", PlanDetail.class);
+		query.setParameter("value", plan.getPlan());
+		query.setParameter("type", plan.getServiceType());
+		PlanDetail detail = query.getSingleResult();
+		BeanUtils.copyProperties(plan, detail);
+		PlanDetailDto dto = new PlanDetailDto();
+		BeanUtils.copyProperties(detail, dto);
+		return dto;
+	}
+
+	@Override
+	@Transactional
+	public PlanDetailDto removePlanDetail(PlanDetailDto plan) {
+		TypedQuery<PlanDetail> query = manager
+				.createQuery("from PlanDetail P where P.plan=:value and P.serviceType=:type", PlanDetail.class);
+		query.setParameter("value", plan.getPlan());
+		query.setParameter("type", plan.getServiceType());
+		PlanDetail detail = query.getSingleResult();
+		manager.remove(detail);
+		return plan;
+	}
+
+	@Override
+	@Transactional
+	public PlanChargeDto addPlanCharge(PlanChargeDto plan) {
+		PlanCharge charge = new PlanCharge();
+		BeanUtils.copyProperties(plan, charge);
+		manager.persist(charge);
+		PlanChargeDto dto = new PlanChargeDto();
+		BeanUtils.copyProperties(charge, dto);
+		return dto;
+	}
+
+	@Override
+	public List<PlanChargeDto> getPlanCharge(PlanDto plan) {
+		Plan p = new Plan();
+		BeanUtils.copyProperties(plan, p);
+		TypedQuery<PlanCharge> query = manager.createQuery("from PlanCharge P where P.plan=:value", PlanCharge.class);
+		query.setParameter("value", p);
+		List<PlanCharge> list = query.getResultList();
+		ModelMapper mapper = new ModelMapper();
+		Type listType = new TypeToken<List<PlanChargeDto>>() {
+		}.getType();
+		List<PlanChargeDto> dto = mapper.map(list, listType);
+		return dto;
+	}
+
+	@Override
+	@Transactional
+	public PlanChargeDto updatePlanCharge(PlanChargeDto plan) {
+		TypedQuery<PlanCharge> query = manager
+				.createQuery("from PlanCharge P where P.plan=:value and P.chargeType=:type", PlanCharge.class);
+		query.setParameter("value", plan.getPlan());
+		query.setParameter("type", plan.getChargeType());
+		PlanCharge charge = query.getSingleResult();
+		BeanUtils.copyProperties(plan, charge);
+		PlanChargeDto dto = new PlanChargeDto();
+		BeanUtils.copyProperties(charge, dto);
+		return dto;
+	}
+
+	@Override
+	@Transactional
+	public PlanChargeDto removePlanCharge(PlanChargeDto plan) {
+		TypedQuery<PlanCharge> query = manager
+				.createQuery("from PlanCharge P where P.plan=:value and P.chargeType=:type", PlanCharge.class);
+		query.setParameter("value", plan.getPlan());
+		query.setParameter("type", plan.getChargeType());
+		PlanCharge charge = query.getSingleResult();
+		manager.remove(charge);
+		return plan;
+	}
+
+	@Override
+	@Transactional
+	public PlanOverdueDto addOverdueDetails(PlanOverdueDto plan) {
+		PlanOverdue charge = new PlanOverdue();
+		BeanUtils.copyProperties(plan, charge);
+		manager.persist(charge);
+		PlanOverdueDto dto = new PlanOverdueDto();
+		BeanUtils.copyProperties(charge, dto);
+		return dto;
+	}
+
+	@Override
+	public List<PlanOverdueDto> getOverdueDetails(PlanDto plan) {
+		Plan p = new Plan();
+		BeanUtils.copyProperties(plan, p);
+		TypedQuery<PlanOverdue> query = manager.createQuery("from PlanOverdue P where P.plan=:value",
+				PlanOverdue.class);
+		query.setParameter("value", p);
+		List<PlanOverdue> list = query.getResultList();
+		ModelMapper mapper = new ModelMapper();
+		Type listType = new TypeToken<List<PlanOverdueDto>>() {
+		}.getType();
+		List<PlanOverdueDto> dto = mapper.map(list, listType);
+		return dto;
+
+	}
+
+	@Override
+	@Transactional
+	public PlanOverdueDto updateOverdueDetails(PlanOverdueDto plan) {
+		TypedQuery<PlanOverdue> query = manager
+				.createQuery("from PlanOverdue P where P.plan=:value and P.overageType=:type", PlanOverdue.class);
+		query.setParameter("value", plan.getPlan());
+		query.setParameter("type", plan.getOverageType());
+		PlanOverdue due = query.getSingleResult();
+		BeanUtils.copyProperties(plan, due);
+		PlanOverdueDto dto = new PlanOverdueDto();
+		BeanUtils.copyProperties(due, dto);
+		return dto;
+	}
+
+	@Override
+	@Transactional
+	public PlanOverdueDto removeOverdueDetails(PlanOverdueDto plan) {
+		TypedQuery<PlanOverdue> query = manager
+				.createQuery("from PlanOverdue P where P.plan=:value and P.overageType=:type", PlanOverdue.class);
+		query.setParameter("value", plan.getPlan());
+		query.setParameter("type", plan.getOverageType());
+		PlanOverdue due = query.getSingleResult();
+		manager.remove(due);
+		return plan;
+	}
+
+}

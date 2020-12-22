@@ -1,0 +1,46 @@
+Create Query:
+
+1. Company_Info:
+	
+	Create table company_info(comp_id INT(4) NOT NULL AUTO_INCREMENT PRIMARY KEY, comp_name NOT NULL UNIQUE VARCHAR(45) NOT NULL, comp_email VARCHAR(60) NOT NULL UNIQUE, comp_pwd VARCHAR(40) NOT NULL);
+
+2. User_info
+	
+	Create table user_info(usr_id INT(4) NOT NULL AUTO_INCREMENT PRIMARY KEY, usr_fname VARCHAR(45) NOT NULL, usr_lname VARCHAR(45), usr_email VARCHAR(60) NOT NULL UNIQUE, usr_pwd VARCHAR(40) NOT NULL);
+
+3. Product_info
+
+	Create table prd_info(prd_id INT(4) NOT NULL AUTO_INCREMENT PRIMARY KEY, prd_name NOT NULL UNIQUE VARCHAR(45), prd_type VARCHAR(60) NOT NULL,comp_id INT(4), FOREIGN KEY (comp_id) REFERENCES company_info(comp_id) ON DELETE CASCADE);
+
+-> insert into prd_info(1, "Jio Cricket", "Mobile Plan", 1);
+
+4. Bundle_info
+
+	Create table bndl_info(bndl_id INT(4) NOT NULL AUTO_INCREMENT PRIMARY KEY, bndl_name NOT NULL UNIQUE VARCHAR(45), bndl_type VARCHAR(60) NOT NULL,  bndl_duration_days INT(4) NOT NULL, bndl_price INT(6) NOT NULL, pr_id INT(4), FOREIGN KEY (pr_id) REFERENCES prd_info(prd_id) ON DELETE CASCADE);
+
+
+5. bundle_details
+
+Create table bndl_details(bndl_type VARCHAR(40) NOT NULL, bndl_detls VARCHAR(320) NOT NULL,  bndl_id INT(4), FOREIGN KEY (bndl_id) REFERENCES bndl_info(bndl_id) ON DELETE CASCADE);
+
+6. Over_due_detls
+
+Create table overdue_info(ovr_id INT(4) NOT NULL AUTO_INCREMENT PRIMARY KEY, ovrdue_type VARCHAR(40) NOT NULL, ovr_charge INT(4), bndl_id INT(4), FOREIGN KEY (bndl_id) REFERENCES bndl_info(bndl_id) ON DELETE CASCADE);
+
+7. Usr_overdue
+
+Create table usrod_info(usr_id INT(4), FOREIGN KEY (usr_id) REFERENCES user_info(usr_id) ON DELETE CASCADE, ovr_id INT(4), FOREIGN KEY (ovr_id) REFERENCES overdue_info(ovr_id) ON DELETE CASCADE);
+
+8. Bal_info
+
+Create table bal_info(usr_id INT(4), FOREIGN KEY (usr_id) REFERENCES user_info(usr_id) ON DELETE CASCADE, bndl_id INT(4), FOREIGN KEY (bndl_id) REFERENCES bndl_info(bndl_id) ON DELETE CASCADE,
+pay_sts varchar(20), atv_on varchar(20), expd_on varchar(20), curr_bal varchar(20));
+
+9. Compnay_turnOver:
+
+Create table comp_revn(comp_id INT(4), FOREIGN KEY (comp_id) REFERENCES company_info(comp_id)  ON DELETE CASCADE, bndl_id INT(4), FOREIGN KEY (bndl_id) REFERENCES bndl_info(bndl_id) ON DELETE CASCADE, totalno_usrs INT(20), ttl_monrev_gen INT(20));
+
+
+
+Create table bndl_details(bndl_type VARCHAR(40) NOT NULL, bndl_detls VARCHAR(320) NOT NULL,  bndl_id INT(4), FOREIGN KEY (bndl_id) REFERENCES bndl_info(bndl_id) ON DELETE CASCADE);
+

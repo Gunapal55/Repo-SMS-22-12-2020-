@@ -1,0 +1,593 @@
+
+1 POST http://localhost:8080/billhelper/product/product
+
+ i/P:	{
+
+	"productName":"Vi",
+	"productType":"Mobile Recharge"
+
+	}
+	
+
+  o/p:  {
+	    "error": false,
+	    "data": {
+		"productId": 3,
+		"productName": "Vi",
+		"productType": "Mobile Recharge",
+		"bundle": null
+	    }
+	}
+
+
+
+
+2> GET http://localhost:8080/billhelper/product/products
+	
+	o/p:
+			{
+	    "error": false,
+	    "data": [
+		{
+		    "productId": 2,
+		    "productName": "Jio Unlimited",
+		    "productType": "Mobile Recharge",
+		    "bundle": []
+		},
+		{
+		    "productId": 3,
+		    "productName": "Vi",
+		    "productType": "Mobile Recharge",
+		    "bundle": []
+		},
+		{
+		    "productId": 4,
+		    "productName": "Idea",
+		    "productType": "Mobile Recharge",
+		    "bundle": []
+		}
+	    ]
+	}
+
+
+3 PUT http://localhost:8080/billhelper/product/product
+	i/p:	{
+      		  "productId": 2,
+      	 	  "productName": "Jio Unlimited",
+       	 	  "productType": "Mobile Recharge"
+        
+    		}
+
+	o/p: 	 {
+		    "error": false,
+		    "data": {
+			"productId": 2,
+			"productName": "Jio Unlimited",
+			"productType": "Mobile Recharge",
+			"bundle": null
+		    	     }
+		}
+
+
+4 Delete http://localhost:8080/billhelper/product/1
+
+   o/p:  	{
+		    "error": false,
+		    "data": {
+			"productId": 1,
+			"productName": "Jio Unlimited",
+			"productType": "Mobile Recharge",
+			"bundle": []
+		    }
+		}
+
+5 GET http://localhost:8080/billhelper/product/2
+	
+	{
+    "error": false,
+    "data": {
+        "productId": 2,
+        "productName": "Jio Unlimited",
+        "productType": "Mobile Recharge",
+        "bundle": []
+    }
+}
+
+DELETE   http://localhost:8080/billhelper/product/bundle
+	i/p: {
+ 		"bundleId": 11
+		}
+
+
+	o/p:
+		{
+		    "error": false,
+		    "data": {
+			"bundleId": 11
+		    }
+		}
+--------------------------------------------------------------------------------------------------------------------------
+6 POST http://localhost:8080/billhelper/product/bundle/details 
+
+	i/p :{ 	"bundleType": "OTT",
+		"bundleDetails":"Enjoy All Movies and web-series",
+		"requiredDocuments": "Aadhar card",
+		
+				 "bundle":{
+				 	"bundleId":1
+				 }
+  
+		}
+
+	o/p: {
+    "error": false,
+    "data": {
+        "bundleDetailId": 2,
+        "bundleType": "OTT",
+        "bundleDetails": "Enjoy All Movies and web-series",
+        "requiredDocuments": "Aadhar card",
+        "bundle": {
+            "bundleId": 1,
+            "bundleDescription": null,
+            "bundleType": null,
+            "bundleDuration": null,
+            "bundleAmount": 0.0,
+            "products": null,
+            "details": null
+        }
+    }
+}
+
+7 GET  http://localhost:8080/billhelper/product/bundle/due
+
+
+	o/p: 
+
+		{
+    "error": false,
+    "data": [
+        {
+            "bundleDetailId": 1,
+            "bundleType": "Messages",
+            "bundleDetails": "2000",
+            "bundle": {
+                "bundleId": 2,
+                "bundleDescription": null,
+                "bundleType": "Recharge",
+                "bundleDuration": null,
+                "bundleAmount": 0.0,
+                "products": null,
+                "details": [
+                    {
+                        "bundleDetailId": 1,
+                        "bundleType": "Messages",
+                        "bundleDetails": "2000"
+                    }
+                ],
+                "due": []
+            }
+        }
+    ]
+}
+
+8 POST  http://localhost:8080/billhelper/product/bundle/due
+
+I/P:    {
+		"chargeType":"each message ",
+		"chargeAmount": 2
+	}
+
+
+o/p:	{
+	    "error": false,
+	    "data": {
+		"overDueId": 8,
+		"chargeType": "each message ",
+		"chargeAmount": 2,
+		"bundle": null
+	    }
+	}
+
+9 POST 	http://localhost:8080/billhelper/product/bundle/addtional  
+I/P:
+
+{
+	"chargeType":"Sim activation cost ",
+	"chargeAmount": 20,
+	"requiredDocuments": "Aadhar Card"
+
+}
+
+{
+    "error": false,
+    "data": {
+        "chargeId": 11,
+        "chargeAmount": 20,
+        "requiredDocuments": "Aadhar Card",
+        "chargeType": "Sim activation cost "
+    }
+}
+
+10.GET http://localhost:8080/billhelper/product/bundle/addtional/11
+
+{
+    "error": false,
+    "data": {
+        "chargeId": 11,
+        "chargeType": "Sim activation cost ",
+        "chargeAmount": 20,
+        "requiredDocuments": "Aadhar Card",
+        "bundleDetail": null
+    }
+}
+
+====================================================================================================================================================
+
+Bundle_info:
+
+11. POST  http://localhost:8080/billhelper/product/bundle
+
+	I/P:  
+			{
+	"bundleDescription":"All in One AT&T Plus ",
+	"bundleType": "OTT",
+	"bundleDuration": 30,
+	"bundleAmount":2000,
+	"products":
+	
+		{
+		"productId":9
+		}
+
+		}
+
+O/P:		
+		{
+	    "error": false,
+	    "data": {
+		"bundleId": 14,
+		"bundleDescription": "All in One AT&T Plus ",
+		"bundleType": "OTT",
+		"bundleDuration": "30",
+		"bundleAmount": 2000.0,
+		"products": {
+		    "productId": 9,
+		    "productName": null,
+		    "productType": null,
+		    "bundle": null
+		}
+	    }
+	}
+
+
+12. GET   http://localhost:8080/billhelper/product/bundle/bundles
+
+O/P:		{
+    "error": false,
+    "data": [
+        {
+            "bundleId": 2,
+            "bundleType": "Recharge"
+        },
+        {
+            "bundleId": 11,
+            "bundleDescription": "Enjoy Unlimited calls and sms",
+            "bundleType": "Recharge",
+            "bundleDuration": "84",
+            "bundleAmount": 899.0
+        },
+        {
+            "bundleId": 12,
+            "bundleDescription": "Enjoy Unlimited calls and sms",
+            "bundleType": "Recharge",
+            "bundleDuration": "84",
+            "bundleAmount": 899.0
+        },
+        {
+            "bundleId": 13,
+            "bundleDescription": "Enjoy Unlimited calls and sms",
+            "bundleType": "Recharge",
+            "bundleDuration": "84",
+            "bundleAmount": 899.0
+        },
+        {
+            "bundleId": 14,
+            "bundleDescription": "All in One AT&T Plus ",
+            "bundleType": "OTT",
+            "bundleDuration": "30",
+            "bundleAmount": 2000.0,
+            "products": {
+                "productId": 9,
+                "productName": "AT&T",
+                "productType": "Telecom"
+            }
+        }
+    ]
+}
+
+13. PUT  http://localhost:8080/billhelper/product/bundle
+	I/p:
+
+	{
+		"bundleId": 14,
+	"bundleDescription":"All in One AT&T Plus ",
+	"bundleType": "OTT",
+	"bundleDuration": 60,
+	"bundleAmount":2200,
+	"products":
+	
+		{
+		"productId":9
+		}
+	
+
+}
+
+o/p:	
+		{
+    "error": false,
+    "data": {
+        "bundleId": 14,
+        "bundleDescription": "All in One AT&T Plus ",
+        "bundleType": "OTT",
+        "bundleDuration": "60",
+        "bundleAmount": 2200.0,
+        "products": {
+            "productId": 9,
+            "productName": null,
+            "productType": null
+        }
+    }
+}
+
+14. DELETE:  http://localhost:8080/billhelper/product/bundle
+
+i/p: 		{
+		"bundleId": 12
+		}
+o/p:	 {
+	    "error": false,
+	    "data": {
+		"bundleId": 12
+	     }
+	  }
+15. POST:  http://localhost:8080/billhelper/product/bundle/detail
+
+i/p:  {
+	"bundleType":"Media",
+	"bundleDetails": "30days of Netflix Unlimited",
+	"bundle":
+		{
+		"bundleId":14
+		}
+	
+
+	}
+
+o/p:
+
+		{
+    "error": false,
+    "data": {
+        "bundleDetailId": 2,
+        "bundleType": "Media",
+        "bundleDetails": "30days of Netflix Unlimited",
+        "bundle": {
+            "bundleId": 14,
+            "bundleDescription": null,
+            "bundleType": null,
+            "bundleDuration": null,
+            "bundleAmount": 0.0,
+            "products": null
+        }
+    }
+}
+
+16. GET  http://localhost:8080/billhelper/product/bundle/details
+
+o/p:  
+	{
+    "error": false,
+    "data": [
+        {
+            "bundleDetailId": 1,
+            "bundleType": "Messages",
+            "bundleDetails": "2000",
+            "bundle": {
+                "bundleId": 2,
+                "bundleDescription": null,
+                "bundleType": "Recharge",
+                "bundleDuration": null,
+                "bundleAmount": 0.0,
+                "products": null
+            }
+        },
+        {
+            "bundleDetailId": 2,
+            "bundleType": "Media",
+            "bundleDetails": "30days of Netflix Unlimited",
+            "bundle": {
+                "bundleId": 14,
+                "bundleDescription": "All in One AT&T Plus ",
+                "bundleType": "OTT",
+                "bundleDuration": "60",
+                "bundleAmount": 2200.0,
+                "products": {
+                    "productId": 9,
+                    "productName": "AT&T",
+                    "productType": "Telecom"
+                }
+            }
+        },
+        {
+            "bundleDetailId": 3,
+            "bundleType": "Data",
+            "bundleDetails": "2000min of call",
+            "bundle": {
+                "bundleId": 14,
+                "bundleDescription": "All in One AT&T Plus ",
+                "bundleType": "OTT",
+                "bundleDuration": "60",
+                "bundleAmount": 2200.0,
+                "products": {
+                    "productId": 9,
+                    "productName": "AT&T",
+                    "productType": "Telecom"
+                }
+            }
+        }
+    ]
+}
+
+
+17. DELETE  http://localhost:8080/billhelper/product/bundle/detail
+
+	i/p:	{
+		"bundleDetailId":3
+		}
+	o/p: 	 {
+		    "error": false,
+		    "data": {
+			"bundleDetailId": 3
+		    }
+		}
+
+18. PUT  http://localhost:8080/billhelper/product/bundle/detail
+
+i/p:   {
+	  "bundleDetailId": 4,
+	"bundleType":"Messages",
+	"bundleDetails": "300",
+	"bundle":
+		{
+		"bundleId":14
+		}
+}
+
+o/p:
+		{
+    "error": false,
+    "data": {
+        "bundleDetailId": 4,
+        "bundleType": "Messages",
+        "bundleDetails": "300",
+        "bundle": {
+            "bundleId": 14,
+            "bundleDescription": null,
+            "bundleType": null,
+            "bundleDuration": null,
+            "bundleAmount": 0.0,
+            "products": null
+        }
+    }
+}
+
+19. POST http://localhost:8080/billhelper/product/bundle/due
+i/p: 	{	
+		   
+		"chargeType":"Calls per minute call",
+		"chargeAmount": 2,
+		"bundle":{
+		"bundleId":14
+		}
+	}
+
+o/p: {
+    "error": false,
+    "data": {
+        "overDueId": 2,
+        "chargeType": "Calls per minute call",
+        "chargeAmount": 2,
+        "bundle": {
+            "bundleId": 14,
+            "bundleDescription": null,
+            "bundleType": null,
+            "bundleDuration": null,
+            "bundleAmount": 0.0,
+            "products": null
+        }
+    }
+}
+20. PUT http://localhost:8080/billhelper/product/bundle/due
+
+i/p: 	{	
+		        "overDueId": 1,
+		"chargeType":"Data per GB",
+		"chargeAmount": 21,
+		"bundle":{
+		"bundleId":14
+		}
+	}
+
+o/p: 
+	{
+    "error": false,
+    "data": {
+        "overDueId": 1,
+        "chargeType": "Data per GB",
+        "chargeAmount": 21,
+        "bundle": {
+            "bundleId": 14,
+            "bundleDescription": null,
+            "bundleType": null,
+            "bundleDuration": null,
+            "bundleAmount": 0.0,
+            "products": null
+        }
+    }
+}
+21. POST  http://localhost:8080/billhelper/product/bundle/additional
+
+i/p: 	 {
+	"chargeType":"Sim activation cost ",
+	"chargeAmount": 20,
+	"requiredDocuments": "Aadhar Card",
+	"bundle":
+		{
+		"bundleId":14
+		}
+	}
+
+o/p:
+	{
+    "error": false,
+    "data": {
+        "chargeId": 4,
+        "chargeAmount": 20,
+	"chargeType": "Sim activation cost ",
+        "requiredDocuments": "Aadhar Card",
+        "bundle": {
+            "bundleId": 14,
+            "bundleDescription": null,
+            "bundleType": null,
+            "bundleDuration": null,
+            "bundleAmount": 0.0,
+            "products": null
+        },
+        
+    }
+}
+22 GET http://localhost:8080/billhelper/product/bundle/details/2
+
+o/p:		
+		{
+    "error": false,
+    "data": {
+        "bundleDetailId": 2,
+        "bundleType": "Media",
+        "bundleDetails": "30days of Netflix Unlimited",
+        "bundle": {
+            "bundleId": 14,
+            "bundleDescription": "All in One AT&T Plus ",
+            "bundleType": "OTT",
+            "bundleDuration": "60",
+            "bundleAmount": 2200.0,
+            "products": {
+                "productId": 9,
+                "productName": "AT&T",
+                "productType": "Telecom"
+            }
+        }
+    }
+}
+
