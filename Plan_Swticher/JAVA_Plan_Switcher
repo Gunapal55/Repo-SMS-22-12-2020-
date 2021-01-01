@@ -1,0 +1,96 @@
+package com.onebill.plan.reader;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+class ReadCsvArray {
+
+	protected void readCsv(String path) {
+		SubIdentifyer iden = new SubIdentifyer();
+		String line = "";
+		String splitBy = ",";
+		try {
+
+			BufferedReader br = new BufferedReader(new FileReader(path));
+			while ((line = br.readLine()) != null) {
+				String[] data = line.split(splitBy);
+				String sub = data[3];
+				String act = data[5];
+				String sus = data[6];
+				iden.subIdentifiyer(sub);
+				sub = "Active";
+				if (sub == "Active") {
+
+					System.out.println("Active plan is: " + act);
+					String active = "1";
+					String notActive = "0";
+					if (act.equals(active) && sus.equals(notActive)) {
+						System.out.println("No changes in plan " + data[4] + " plan continues");
+					}
+					if (act.equals(notActive) && sus.equals(active)) {
+						System.out.println("Switch current plan " + data[4] + " to Suspended plan");
+						System.out.println("=====================Calling switch plan API==========================");
+					}
+
+				}
+
+				// System.out.println(sub);
+
+				// for (String res : data) {
+				//
+				// System.out.println(res);
+				//
+				// }
+
+				// System.out.println("Subscription [Date=" + data[0] + ", Partner-Name=" +
+				// data[1] + ", Code=" + data[2]
+				// + ", Subscriber Identifier=" + data[3] + ", Aggregator Rate Plan= " + data[4]
+				// + ", Active Subscriber Count= " + data[5] + ", Suspended Subscriber Count= "
+				// + data[6] + "]");
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+}
+
+==============================API CALLING===============================================
+
+package com.onebill.plan.reader;
+
+public class SubIdentifyer {
+
+		public void subIdentifiyer(String ip) {
+			
+		
+				System.out.println(ip+" This is sub identifer API");
+			
+			
+			
+		}
+}
+
+========================================MAIN=====================================================
+
+package com.onebill.plan.reader;
+
+public class Main {
+public static void main(String[] args) {
+//	ReadCsv csv = new ReadCsv();
+//	csv.readCsv("./Subscription_Input_File.csv");
+//	
+//	ReadAll all = new ReadAll();
+//	all.readAll("./Subscription_Input_File.csv");
+//	
+
+	ReadCsvArray csvr = new ReadCsvArray();
+	csvr.readCsv("Subscription_Input_File.csv");
+
+	}
+}
+
+
+

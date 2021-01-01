@@ -1,0 +1,153 @@
+onebill1 / tarshan
+
+1. Onebill-Setup/apache-tomcat-8.5.29/bin$ ./run.sh
+2. Enter localhost:8080..
+3. Pricing > created product > go to product> add details >	 clone plan add new plan	
+4.customer > subscriber created
+
+POSTMAN:
+
+1.POST: 
+http://localhost:8080/oauth/token?grant_type=password&client_id=onebill1&client_secret=onebill1&username=onebill1&password=ce944500d9aa0e547d9e7f152fbe83a2911ea7221fa3887d4637d6912b0b74fd&scope=trust
+
+http://localhost:8080/oauth/token?grant_type=password&client_id=onebill1&client_secret=onebill1&username=onebill&password=ce944500d9aa0e547d9e7f152fbe83a2911ea7221fa3887d4637d6912b0b74fd&scope=trust
+
+select * from OB_USERS; for onebill password
+
+it will auto generate access token for Oauth2.0
+
+2. GET
+http://localhost:8080/rest/SubscriberService/v1/subscribers/<accountNumber>/subscriptions/SUB2-Test ProductA
+
+http://localhost:8080/rest/SubscriberService/v1/subscribers/SR1002/subscriptions/SUB2-Test A
+
+
+paste the access_token from post method to 67001e3f-f88a-4364-bb44-afe473cf42e4
+
+home/onebill/Desktop/Gunapal P/Plan_Swticher/Subscription_Input_File.csv
+
+
+
+
+
+
+
+
+============================================================NEW=====================================================================================
+
+
++---------------------+------------+---------------------+------------------+-----+------------+--------+---------------------+--------------+--------+-------------+--------------+------+-------------+-----------+--------------+--------------+----------+-------------------+------+-------------------+----------+------+-------------------+---------------+------------+
+| CREATED_DATE        | CREATED_BY | LAST_MODIFIED_DATE  | LAST_MODIFIED_BY | ID  | PRODUCT_ID | NAME   | AVAILABLE_FROM      | AVAILABLE_TO | STATUS | PROVIDER_ID | DISCOUNTABLE | TERM | TERM_ACTION | TERM_MODE | TERM_ALIGNED | DESCRIPTION  | TRIAL_ID | PRICE_OVERRIDABLE | TYPE | BASE_PRICEPLAN_ID | PRIORITY | CODE | CHARGE_IN_ADVANCE | TAX_INCLUSIVE | IMAGE_JSON |
++---------------------+------------+---------------------+------------------+-----+------------+--------+---------------------+--------------+--------+-------------+--------------+------+-------------+-----------+--------------+--------------+----------+-------------------+------+-------------------+----------+------+-------------------+---------------+------------+
+| 2020-12-31 06:19:52 |          2 | 2020-12-31 06:21:32 |                2 |   2 |          2 | Plan A | 2020-12-31 00:00:00 | NULL         |      1 |           2 | NULL         |    0 |           0 | N         |            0 | <p>new</p>   |     NULL |                 0 |    1 |              NULL |        0 | NULL |                 1 |             0 | NULL       |
+| 2020-12-31 06:21:03 |          2 | 2020-12-31 06:21:59 |                2 |   3 |          2 | PLAN B | 2020-12-31 00:00:00 | NULL         |      1 |           2 | NULL         |    0 |           0 | N         |            0 | <p>new B</p> |     NULL |                 0 |    1 |              NULL |        0 | NULL |                 1 |             0 | NULL       |
+| 2020-12-31 08:32:44 |          2 | 2020-12-31 08:32:44 |                2 | 102 |          2 | PLAN C | 2020-12-31 00:00:00 | NULL         |      1 |           2 | NULL         |    0 |           0 | N         |            0 | <p>new C</p> |     NULL |                 0 |    1 |              NULL |        0 | NULL |                 1 |             0 | NULL       |
++---------------------+------------+---------------------+------------------+-----+------------+--------+---------------------+--------------+--------+-------------+--------------+------+-------------+-----------+--------------+--------------+----------+-------------------+------+-------------------+----------+------+-------------------+---------------+------------+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+===========================================POSTMAN====================================================================================
+POST: http://localhost:8080/rest/OrderService/v1/order
+{
+  "accountNumber": "SR1002",
+  "orderElement": [
+    {
+      "quantity": "1",
+      "referenceId": "102",
+      "fulfilledDate": "2020-20-12T00:00:00-08:00",
+      "actionType": "ChangePriceplan",
+      "subscriptionIdentifier" : "SUB2-Test A"
+    }
+  ]
+}
+
+Header:
+Content-Type: application/json
+Authorization:  Bearer ddcd0595-0069-4a4e-b6b8-0baccf46cdaaa
+
+
+respo:
+
+{
+    "accountNumber": "SR1002",
+    "orderNumber": "OR1103",
+    "orderName": "OR1103",
+    "status": "OK"
+}
+
+
+GET:	http://localhost:8080/rest/SubscriberService/v1/subscribers/SR1002/subscriptions/SUB2-Test A
+
+Header:
+
+Content-Type: application/json
+Authorization: Bearer ddcd0595-0069-4a4e-b6b8-0baccf46cdaa
+
+respo:
+
+{
+    "subscription": [
+        {
+            "identifier": "SUB2-Test A",
+            "chargingFrequency": "MONTHLY",
+            "productId": "2",
+            "Charge": 20.00,
+            "currencySymbol": "$",
+            "quantity": 1.00,
+            "state": "ACTIVE",
+            "subscriptionId": "2",
+            "activationStart": "2020-12-01T00:00:00-05:00",
+            "renewDate": "2021-01-01T00:00:00-05:00",
+            "subscriptionPricePlan": [
+                {
+                    "id": "2",
+                    "pricePlanId": "2",
+                    "subsType": 1
+                },
+                {
+                    "id": "2",
+                    "pricePlanId": "2",
+                    "activationStart": "2020-12-01T00:00:00-05:00",
+                    "recStart": "2020-12-01T00:00:00-05:00",
+                    "status": 1002,
+                    "discountExclusive": 0,
+                    "subsType": 2
+                }
+            ],
+            "pricePlanId": "2",
+            "isBundled": false
+        }
+    ],
+    "status": "OK"
+}
+
+3. POST:  http://localhost:8080/oauth/token?grant_type=password&client_id=onebill1&client_secret=onebill1&username=onebill1&password=ce944500d9aa0e547d9e7f152fbe83a2911ea7221fa3887d4637d6912b0b74fd&scope=trust
+
+respo:
+
+{
+    "access_token": "ddcd0595-0069-4a4e-b6b8-0baccf46cdaa",
+    "token_type": "bearer",
+    "refresh_token": "b0e7f782-cda0-4553-97a1-cab406927277",
+    "expires_in": 3599,
+    "scope": "trust"
+}
+
+
+
